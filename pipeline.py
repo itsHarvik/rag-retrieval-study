@@ -36,7 +36,7 @@ def keyword_search(chunks, query):
 
 if __name__ == "__main__":
     # Quick test without Streamlit: run "python pipeline.py"
-    with open("testing.py", "rb") as f:
+    with open("test.pdf", "rb") as f:
         pages = extract_pages(f.read())
     chunks = chunk_pages(pages)
     print(len(pages), "pages,", len(chunks), "chunks")
