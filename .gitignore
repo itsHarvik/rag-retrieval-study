@@ -1,0 +1,14 @@
+# Python cache files (auto-generated when Python runs your code)
+__pycache__/
+*.pyc
+
+# Virtual environments (installed packages; can be recreated)
+venv/
+.venv/
+env/
+
+# Secrets (API keys, passwords)
+.env
+
+# IDE settings (PyCharm)
+.idea/
