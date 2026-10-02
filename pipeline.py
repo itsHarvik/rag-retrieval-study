@@ -1,14 +1,32 @@
+import json
+import re
+import unicodedata
+
 import faiss
 import pymupdf
 from sentence_transformers import SentenceTransformer
 
+# A word broken across two lines, e.g. "com-\nputational"
+LINE_BREAK_HYPHEN = re.compile(r"(\w+)-\n(\w+)")
+
+
 def extract_pages(pdf_bytes):
     """Read a PDF and return a list of pages: [{"page": 1, "text": "..."}, ...]"""
     doc = pymupdf.open(stream=pdf_bytes, filetype="pdf")
-    pages = []
-    for i, page in enumerate(doc):
-        pages.append({"page": i + 1, "text": page.get_text()})
-    return pages
+    # NFKC turns ligature characters like "ﬁ" (one symbol) into normal "fi"
+    texts = [unicodedata.normalize("NFKC", page.get_text()) for page in doc]
+
+    # Words that really contain a hyphen somewhere in the document (e.g. "cosine-similarity").
+    # If a line-break hyphen produces one of these, we keep the hyphen; otherwise we join the halves.
+    real_hyphen_words = set(re.findall(r"\w+-\w+", " ".join(texts).lower()))
+
+    def fix(match):
+        left, right = match.group(1), match.group(2)
+        if f"{left}-{right}".lower() in real_hyphen_words:
+            return f"{left}-{right}"
+        return left + right
+
+    return [{"page": i + 1, "text": LINE_BREAK_HYPHEN.sub(fix, t)} for i, t in enumerate(texts)]
 
 
 def chunk_pages(pages, chunk_size=200):
@@ -25,7 +43,10 @@ def chunk_pages(pages, chunk_size=200):
 
             chunks.append({
                 "text": chunk,
-                "page": page_number
+                "page": page_number,
+                # Word positions this chunk covers on its page: [start, end)
+                "start": i,
+                "end": min(i + chunk_size, len(words)),
             })
 
     return chunks
@@ -62,6 +83,43 @@ def semantic_search(query, model, index, chunks, k=5):
             continue
         results.append({**chunks[i], "score": float(score)})
     return results
+
+
+def normalize_words(text):
+    """Split text into lowercase words without punctuation, for matching.
+    Splits exactly like chunk_pages, so word positions line up."""
+    text = unicodedata.normalize("NFKC", text)  # same normalization as extract_pages
+    return [re.sub(r"\W+", "", w.lower()) for w in text.split()]
+
+
+def find_evidence(pages, page_number, evidence_text):
+    """Find where a quote appears on a page. Returns the word span (start, end), or None."""
+    page_words = normalize_words(pages[page_number - 1]["text"])
+    quote = normalize_words(evidence_text)
+    for start in range(len(page_words) - len(quote) + 1):
+        if page_words[start:start + len(quote)] == quote:
+            return start, start + len(quote)
+    return None
+
+
+def load_eval_set(path="eval_set.json"):
+    with open(path, encoding="utf-8") as f:
+        return json.load(f)
+
+
+def relevant_chunk_ids(question, pages, chunks):
+    """Indices of the chunks that contain (part of) any evidence quote for this question.
+    Works for any chunk size, because labels are quotes, not chunk numbers."""
+    relevant = set()
+    for ev in question["evidence"]:
+        span = find_evidence(pages, ev["page"], ev["text"])
+        if span is None:
+            raise ValueError(f"{question['id']}: quote not found on page {ev['page']}: {ev['text']!r}")
+        for idx, c in enumerate(chunks):
+            # Two ranges overlap if each one starts before the other ends
+            if c["page"] == ev["page"] and c["start"] < span[1] and span[0] < c["end"]:
+                relevant.add(idx)
+    return relevant
 
 
 if __name__ == "__main__":
