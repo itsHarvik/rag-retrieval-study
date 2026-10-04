@@ -66,27 +66,48 @@ def load_model():
     return SentenceTransformer("all-MiniLM-L6-v2")
 
 
-def build_index(chunks, model):
-    """Embed every chunk and store the vectors in a FAISS index."""
-    texts = [c["text"] for c in chunks]
+def split_windows(chunks, window_words):
+    """Split each chunk into equal pieces of at most window_words words.
+    Returns (texts, owners): owners[i] is the id of the chunk that window i came from."""
+    texts, owners = [], []
+    for c in chunks:
+        words = c["text"].split()
+        n_windows = max(1, math.ceil(len(words) / window_words))
+        size = math.ceil(len(words) / n_windows)  # equal sizes: 200 words -> 2 x 100, not 180 + 20
+        for i in range(0, len(words), size):
+            texts.append(" ".join(words[i:i + size]))
+            owners.append(c["id"])
+    return texts, owners
+
+
+def build_index(chunks, model, window_words=None):
+    """Embed the chunks and store the vectors in a FAISS index.
+    With window_words, each chunk is embedded as several shorter windows, so the model's
+    256-token input limit doesn't cut off the end of long chunks.
+    Returns (index, owners): owners[i] is the chunk id of vector i."""
+    if window_words:
+        texts, owners = split_windows(chunks, window_words)
+    else:
+        texts, owners = [c["text"] for c in chunks], [c["id"] for c in chunks]
     # normalize_embeddings=True makes every vector length 1,
     # so inner product (IP) = cosine similarity
     embeddings = model.encode(texts, normalize_embeddings=True)
     index = faiss.IndexFlatIP(embeddings.shape[1])  # 384 dimensions
     index.add(embeddings)
-    return index
+    return index, owners
 
 
-def semantic_search(query, model, index, chunks, k=5):
-    """Return the k chunks most similar in meaning to the query, with scores."""
+def semantic_search(query, model, index, owners, chunks, k=5):
+    """Return the k chunks most similar in meaning to the query, with scores.
+    A chunk's score is the score of its best-matching vector (max-pooling over windows)."""
     query_vector = model.encode([query], normalize_embeddings=True)
-    scores, ids = index.search(query_vector, k)
-    results = []
-    for score, i in zip(scores[0], ids[0]):
-        if i == -1:  # FAISS uses -1 when there are fewer than k chunks
-            continue
-        results.append({**chunks[i], "score": float(score)})
-    return results
+    scores, ids = index.search(query_vector, index.ntotal)  # score every vector
+    best = {}
+    for score, i in zip(scores[0], ids[0]):  # sorted best-first, so the first hit per chunk is its max
+        if owners[i] not in best:
+            best[owners[i]] = float(score)
+    ranked = list(best.items())[:k]
+    return [{**chunks[chunk_id], "score": score} for chunk_id, score in ranked]
 
 
 def normalize_words(text):
@@ -162,11 +183,11 @@ def bm25_search(query, bm25, chunks, k=5, k1=1.5, b=0.75):
     return [{**chunks[i], "score": score} for score, i in scored[:k]]
 
 
-def hybrid_search(query, model, index, bm25, chunks, k=5, rrf_k=60):
+def hybrid_search(query, model, index, owners, bm25, chunks, k=5, rrf_k=60):
     """Reciprocal Rank Fusion: each method votes 1 / (rrf_k + rank) for every chunk.
     Uses ranks, not raw scores, because BM25 scores (0-20+) and cosine scores (0-1) aren't comparable."""
     fused = Counter()
-    for results in (semantic_search(query, model, index, chunks, k=len(chunks)),
+    for results in (semantic_search(query, model, index, owners, chunks, k=len(chunks)),
                     bm25_search(query, bm25, chunks, k=len(chunks))):
         for rank, r in enumerate(results, start=1):
             fused[r["id"]] += 1 / (rrf_k + rank)
@@ -236,11 +257,11 @@ if __name__ == "__main__":
     print(len(pages), "pages,", len(chunks), "chunks")
 
     model = load_model()
-    index = build_index(chunks, model)
+    index, owners = build_index(chunks, model)
 
     query = "How long does BERT take to find the most similar sentence pair?"
     print("\nQuery:", query)
     print("Keyword matches:", len(keyword_search(chunks, query)))
     print("Semantic top 3:")
-    for r in semantic_search(query, model, index, chunks, k=3):
+    for r in semantic_search(query, model, index, owners, chunks, k=3):
         print(f"  page {r['page']}  score {r['score']:.3f}  {r['text'][:100]}...")

@@ -19,12 +19,12 @@ with open("test.pdf", "rb") as f:
 questions = load_eval_set()
 chunks = chunk_pages(pages, chunk_size=200)
 model = load_model()
-index = build_index(chunks, model)
+index, owners = build_index(chunks, model)
 
 
 def search(question):
     # Rank ALL chunks, so MRR sees the true position of the first relevant chunk
-    return [r["id"] for r in semantic_search(question, model, index, chunks, k=len(chunks))]
+    return [r["id"] for r in semantic_search(question, model, index, owners, chunks, k=len(chunks))]
 
 
 rows = evaluate_search(search, questions, pages, chunks)
