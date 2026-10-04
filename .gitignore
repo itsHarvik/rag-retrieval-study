@@ -12,3 +12,6 @@ env/
 
 # IDE settings (PyCharm)
 .idea/
+
+# PDFs (download the test paper yourself, see README)
+*.pdf
