@@ -1,6 +1,9 @@
 import json
+import math
+import random
 import re
 import unicodedata
+from collections import Counter
 
 import faiss
 import pymupdf
@@ -42,6 +45,7 @@ def chunk_pages(pages, chunk_size=200):
             chunk = " ".join(words[i:i + chunk_size])
 
             chunks.append({
+                "id": len(chunks),  # position in the chunk list, used by search results and metrics
                 "text": chunk,
                 "page": page_number,
                 # Word positions this chunk covers on its page: [start, end)
@@ -120,6 +124,53 @@ def relevant_chunk_ids(question, pages, chunks):
             if c["page"] == ev["page"] and c["start"] < span[1] and span[0] < c["end"]:
                 relevant.add(idx)
     return relevant
+
+
+# ---------- Stage 4: retrieval metrics ----------
+
+def precision_at_k(ranked_ids, relevant, k):
+    """Of the top k results, what fraction are relevant?"""
+    return len(set(ranked_ids[:k]) & relevant) / k
+
+
+def recall_at_k(ranked_ids, relevant, k):
+    """Of all relevant chunks, what fraction appear in the top k?"""
+    return len(set(ranked_ids[:k]) & relevant) / len(relevant)
+
+
+def reciprocal_rank(ranked_ids, relevant):
+    """1 / (position of the first relevant result). 1st -> 1.0, 2nd -> 0.5, never found -> 0."""
+    for rank, chunk_id in enumerate(ranked_ids, start=1):
+        if chunk_id in relevant:
+            return 1 / rank
+    return 0.0
+
+
+def evaluate_search(search, questions, pages, chunks, ks=(1, 3, 5)):
+    """Run search(question_text) -> ranked list of chunk ids for every question.
+    Returns one row per question with its scores, so we can average over any group later."""
+    rows = []
+    for q in questions:
+        relevant = relevant_chunk_ids(q, pages, chunks)
+        ranked = search(q["question"])
+        row = {"id": q["id"], "type": q["type"], "source": q["source"], "rr": reciprocal_rank(ranked, relevant)}
+        for k in ks:
+            row[f"p@{k}"] = precision_at_k(ranked, relevant, k)
+            row[f"r@{k}"] = recall_at_k(ranked, relevant, k)
+        rows.append(row)
+    return rows
+
+
+def summarize(rows, metrics):
+    """Average each metric over the rows. The average of "rr" is MRR."""
+    return {m: sum(r[m] for r in rows) / len(rows) for m in metrics}
+
+
+def random_ranking(chunks, seed):
+    """Baseline: a random order of all chunks. Any real method must beat this."""
+    ids = [c["id"] for c in chunks]
+    random.Random(seed).shuffle(ids)
+    return ids
 
 
 if __name__ == "__main__":
