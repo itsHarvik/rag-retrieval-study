@@ -1,5 +1,6 @@
 import streamlit as st
-from pipeline import extract_pages, chunk_pages, keyword_search, load_model, build_index, semantic_search
+from pipeline import (extract_pages, chunk_pages, keyword_search, load_model, build_index, semantic_search,
+                      build_bm25, bm25_search, hybrid_search)
 
 
 @st.cache_resource
@@ -14,28 +15,34 @@ def process_pdf(pdf_bytes):
     pages = extract_pages(pdf_bytes)
     chunks = chunk_pages(pages)
     index = build_index(chunks, get_model())
-    return chunks, index
+    return chunks, index, build_bm25(chunks)
 
 
 st.title("Document Search")
 uploaded_file = st.file_uploader("Upload a PDF", type="pdf")
 
 if uploaded_file is not None:
-    chunks, index = process_pdf(uploaded_file.read())
+    chunks, index, bm25 = process_pdf(uploaded_file.read())
 
-    mode = st.radio("Search mode", ["Keyword", "Semantic"], horizontal=True)
+    mode = st.radio("Search mode", ["Keyword", "BM25", "Semantic", "Hybrid"], horizontal=True)
     query = st.text_input("Search the document")
     if query:
         if mode == "Keyword":
             results = keyword_search(chunks, query)
             st.write(f"Found {len(results)} matching chunks")
-        else:
+        elif mode == "BM25":
+            results = bm25_search(query, bm25, chunks, k=5)
+            st.write(f"Top {len(results)} chunks by BM25 word matching")
+        elif mode == "Semantic":
             results = semantic_search(query, get_model(), index, chunks, k=5)
             st.write(f"Top {len(results)} chunks by meaning")
+        else:
+            results = hybrid_search(query, get_model(), index, bm25, chunks, k=5)
+            st.write(f"Top {len(results)} chunks by BM25 + semantic (rank fusion)")
 
         for r in results:
             if "score" in r:
-                st.markdown(f"**Page {r['page']}** · similarity {r['score']:.3f}")
+                st.markdown(f"**Page {r['page']}** · score {r['score']:.3f}")
             else:
                 st.markdown(f"**Page {r['page']}**")
             st.write(r["text"])
