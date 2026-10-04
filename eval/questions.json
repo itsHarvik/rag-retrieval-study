@@ -82,7 +82,7 @@
    "evidence": [{"page": 7, "text": "The only dataset where SBERT is significantly worse than Universal Sentence Encoder is the TREC dataset"}]},
   {"id": "h10", "source": "human", "type": "lexical", "question": "By what percentage is InferSent faster than SBERT on CPU?",
    "evidence": [{"page": 8, "text": "On CPU, InferSent is about 65% faster than SBERT"}]},
-  {"id": "h11", "source": "human", "type": "lexical", "question": "Why does the paper evaluate with Spearman's rank correlation instead of Pearson correlation?", "note": "wording edited by Claude; original: 'why we used spearman ranking model?'",
+  {"id": "h11", "source": "human", "type": "paraphrase", "question": "why we used spearman ranking model?",
    "evidence": [{"page": 4, "text": "Pearson correlation is badly suited for STS"},
                 {"page": 4, "text": "we compute the Spearman's rank correlation between the cosine-similarity of the sentence embeddings and the gold labels"}]},
   {"id": "h12", "source": "human", "type": "paraphrase", "note": "type changed from lexical by Claude", "question": "Why was pretraining SBERT on natural language inference data helpful before testing it on the STS benchmark?",
