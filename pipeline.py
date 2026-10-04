@@ -102,7 +102,7 @@ def find_evidence(pages, page_number, evidence_text):
     return None
 
 
-def load_eval_set(path="eval_set.json"):
+def load_eval_set(path="eval/questions.json"):
     with open(path, encoding="utf-8") as f:
         return json.load(f)
 
