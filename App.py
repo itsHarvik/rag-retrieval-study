@@ -14,15 +14,15 @@ def process_pdf(pdf_bytes):
     # Chunk and index each PDF only once (cached by the file's bytes)
     pages = extract_pages(pdf_bytes)
     chunks = chunk_pages(pages)
-    index = build_index(chunks, get_model())
-    return chunks, index, build_bm25(chunks)
+    index, owners = build_index(chunks, get_model(), window_words=180)
+    return chunks, index, owners, build_bm25(chunks)
 
 
 st.title("Document Search")
 uploaded_file = st.file_uploader("Upload a PDF", type="pdf")
 
 if uploaded_file is not None:
-    chunks, index, bm25 = process_pdf(uploaded_file.read())
+    chunks, index, owners, bm25 = process_pdf(uploaded_file.read())
 
     mode = st.radio("Search mode", ["Keyword", "BM25", "Semantic", "Hybrid"], horizontal=True)
     query = st.text_input("Search the document")
@@ -34,10 +34,10 @@ if uploaded_file is not None:
             results = bm25_search(query, bm25, chunks, k=5)
             st.write(f"Top {len(results)} chunks by BM25 word matching")
         elif mode == "Semantic":
-            results = semantic_search(query, get_model(), index, chunks, k=5)
+            results = semantic_search(query, get_model(), index, owners, chunks, k=5)
             st.write(f"Top {len(results)} chunks by meaning")
         else:
-            results = hybrid_search(query, get_model(), index, bm25, chunks, k=5)
+            results = hybrid_search(query, get_model(), index, owners, bm25, chunks, k=5)
             st.write(f"Top {len(results)} chunks by BM25 + semantic (rank fusion)")
 
         for r in results:
