@@ -11,7 +11,7 @@ A small research project on the **retrieval** step of PDF question answering (RA
 - **BM25 is a strong baseline.** It beat plain semantic search at every chunk size (significantly at 200 and 400 words).
 - **The embedding model's 256-token limit silently cut off most chunks.** As a result, semantic search got *worse* with bigger chunks.
 - **Embedding chunks as windows of ≤ 180 words fixes most of this.** The best configuration, windowed hybrid with 400-word chunks, reaches **MRR 0.70 and Recall@5 0.90**.
-- Evaluation set: **28 questions drafted by an LLM, 15 written by me**. Results are reported for both groups. See the report for limitations.
+- Evaluation set: **43 questions (15 written by me, 28 LLM-drafted), each labelled with evidence quotes**. Results are reported for both groups. See the report for limitations.
 
 ## How it works
 

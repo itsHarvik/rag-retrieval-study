@@ -100,6 +100,8 @@ At 100 words no chunk needs splitting, so the windowed methods are identical to 
 
 Split windows by token count, test on several papers with questions from people who haven't read them, compare a larger or longer-input embedding model, and evaluate full answers with an LLM in the loop.
 
+- Test a long-context embedding model, to separate truncation (text never seen) from dilution (one vector blurring a long chunk).
+
 ## Reproducibility
 
 All code is in this repository:
