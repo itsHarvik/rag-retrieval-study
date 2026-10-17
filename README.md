@@ -1,6 +1,6 @@
 # PDF Question Answering: BM25 vs Semantic vs Hybrid Retrieval
 
-A small research project on the **retrieval** step of PDF question answering (RAG). Given a question about a PDF, which method finds the passage that answers it best? I compare keyword search (BM25), semantic search (sentence embeddings + FAISS) and a hybrid of both, at three chunk sizes, on a hand-labeled evaluation set.
+A small research project on the **retrieval** step of PDF question answering (RAG). Given a question about a PDF, which method finds the passage that answers it best? I compare keyword search (BM25), semantic search (sentence embeddings + FAISS) and a hybrid of both, at three chunk sizes, on a labelled evaluation set of 43 questions.
 
 **Full write-up: [REPORT.md](REPORT.md)**
 
@@ -32,7 +32,7 @@ A small research project on the **retrieval** step of PDF question answering (RA
 pip install -r requirements.txt
 
 # The test paper is not included in the repo. Download Sentence-BERT (arXiv:1908.10084):
-curl -L -o test.pdf https://arxiv.org/pdf/1908.10084
+curl -L -o test.pdf https://arxiv.org/pdf/1908.10084v1
 
 python check_eval_set.py   # verify the labels match the PDF
 python experiments.py      # run all experiments (writes results/)
@@ -44,4 +44,4 @@ The labels are exact quotes, so the PDF text extraction must match. If you get a
 
 ## Built with
 
-Python, PyMuPDF, sentence-transformers, FAISS, Streamlit, matplotlib. The code was written with an AI coding assistant (Claude Code) under my direction. LEARNING.md documents the reasoning behind every choice.
+Python, PyMuPDF, sentence-transformers, FAISS, Streamlit, matplotlib. The code was written with an AI coding assistant (Claude Code) under my direction. The research question, experiment design decisions, 15 of the evaluation questions and the analysis of the results are my own. LEARNING.md documents the reasoning behind every choice.
