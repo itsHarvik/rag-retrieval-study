@@ -24,7 +24,6 @@ A small research project on the **retrieval** step of PDF question answering (RA
 | `evaluate.py` | Stage 4 report: semantic search vs a random baseline |
 | `experiments.py` | All experiments (5 methods × 3 chunk sizes) with paired bootstrap tests. Writes `results/*.csv` |
 | `make_chart.py` | Draws `results/chart.png` from the results |
-| `LEARNING.md` | Stage-by-stage notes: what was built, why, and what we found |
 
 ## Run it
 
@@ -44,4 +43,4 @@ The labels are exact quotes, so the PDF text extraction must match. If you get a
 
 ## Built with
 
-Python, PyMuPDF, sentence-transformers, FAISS, Streamlit, matplotlib. The code was written with an AI coding assistant (Claude Code) under my direction. The research question, experiment design decisions, 15 of the evaluation questions and the analysis of the results are my own. LEARNING.md documents the reasoning behind every choice.
+Python, PyMuPDF, sentence-transformers, FAISS, Streamlit, matplotlib. The code was written with an AI coding assistant (Claude Code) under my direction. The research question, experiment design decisions, 15 of the evaluation questions and the analysis of the results are my own.
