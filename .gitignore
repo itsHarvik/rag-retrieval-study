@@ -15,3 +15,8 @@ env/
 
 # PDFs (download the test paper yourself, see README)
 *.pdf
+
+# Private working notes and scratch scripts (kept locally, not published)
+CLAUDE.md
+LEARNING.md
+testing.py
