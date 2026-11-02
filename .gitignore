@@ -20,3 +20,6 @@ env/
 CLAUDE.md
 LEARNING.md
 testing.py
+
+# Claude session outputs (local only)
+Claude outputs/
