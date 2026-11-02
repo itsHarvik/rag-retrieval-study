@@ -28,7 +28,7 @@ While running the experiments I found that the embedding model silently cuts off
 
 **Evaluation set.** 43 questions about the paper. Each is labeled with one or more **evidence quotes** (page + exact text) instead of chunk numbers, so the same labels work for every chunk size. A chunk counts as relevant if it overlaps an evidence quote. Every quote is automatically checked to appear in the extracted text.
 
-- **Authorship:** **28 questions were drafted by an LLM (Claude)** before any search was run on them. **15 were written by me** after reading the paper. Each question records its author (`source` field), and results are reported for both groups. The LLM made two small edits to my questions (re-tagging two question types), and these are marked in the data.
+- **Authorship:** **28 questions were drafted by an LLM** before any search was run on them. **15 were written by me** after reading the paper. Each question records its author (`source` field), and results are reported for both groups. The LLM made two small edits to my questions (re-tagging two question types), and these are marked in the data.
 - Each question is tagged *lexical* (it shares a distinctive word with its evidence, 24 questions) or *paraphrase* (it doesn't, 19 questions).
 
 **Metrics.**
@@ -109,4 +109,4 @@ All code is in this repository:
 - `experiments.py`: runs every configuration and writes `results/summary.csv` and `results/per_question.csv`.
 - `make_chart.py`: draws the chart.
 
-The code was written with an AI coding assistant (Claude Code) under my direction. I reviewed it and can explain every part.
+The code was written with an AI coding assistant under my direction. I reviewed it and can explain every part.

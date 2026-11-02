@@ -43,4 +43,4 @@ The labels are exact quotes, so the PDF text extraction must match. If you get a
 
 ## Built with
 
-Python, PyMuPDF, sentence-transformers, FAISS, Streamlit, matplotlib. The code was written with an AI coding assistant (Claude Code) under my direction. The research question, experiment design decisions, 15 of the evaluation questions and the analysis of the results are my own.
+Python, PyMuPDF, sentence-transformers, FAISS, Streamlit, matplotlib. The code was written with an AI coding assistant under my direction. The research question, experiment design decisions, 15 of the evaluation questions and the analysis of the results are my own.
