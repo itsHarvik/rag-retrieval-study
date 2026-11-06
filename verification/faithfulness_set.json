@@ -1,0 +1,1039 @@
+[
+  {
+    "id": "q03-supported",
+    "question_id": "q03",
+    "answer": "A cross-encoder is unsuitable for many pair regression tasks because there are too many possible sentence combinations to compare.",
+    "label": "supported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q03-contradicted",
+    "question_id": "q03",
+    "answer": "A cross-encoder is suitable for most pair regression tasks because the number of possible sentence combinations stays small.",
+    "label": "contradicted",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q03-unsupported",
+    "question_id": "q03",
+    "answer": "A cross-encoder is impractical because its memory use grows quadratically with the length of each sentence pair.",
+    "label": "unsupported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q04-supported",
+    "question_id": "q04",
+    "answer": "With BERT, answering a single query against all Quora questions would take over 50 hours.",
+    "label": "supported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q04-contradicted",
+    "question_id": "q04",
+    "answer": "With BERT, answering a single query against all Quora questions would take over 5 hours.",
+    "label": "contradicted",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q04-unsupported",
+    "question_id": "q04",
+    "answer": "With BERT, answering a single Quora query would cost roughly 2,000 US dollars of cloud GPU time.",
+    "label": "unsupported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q05-supported",
+    "question_id": "q05",
+    "answer": "No. Averaging BERT's outputs gives rather bad sentence embeddings, often worse than averaged GloVe embeddings, with an average correlation of only 54.81.",
+    "label": "supported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q05-contradicted",
+    "question_id": "q05",
+    "answer": "No. Averaging BERT's outputs gives rather bad sentence embeddings, often worse than averaged GloVe embeddings, with an average correlation of only 64.81.",
+    "label": "contradicted",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q05-unsupported",
+    "question_id": "q05",
+    "answer": "No. Averaged BERT vectors are dominated by a few very frequent words, so most sentences end up with nearly identical embeddings.",
+    "label": "unsupported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q06-supported",
+    "question_id": "q06",
+    "answer": "SBERT was fine-tuned on NLI (natural language inference) data, including the SNLI dataset.",
+    "label": "supported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q06-contradicted",
+    "question_id": "q06",
+    "answer": "SBERT was fine-tuned on Reddit conversation data instead of NLI data such as SNLI.",
+    "label": "contradicted",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q06-unsupported",
+    "question_id": "q06",
+    "answer": "SBERT was trained on a corpus of 2 million paraphrase pairs that the authors mined from news headlines.",
+    "label": "unsupported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q07-supported",
+    "question_id": "q07",
+    "answer": "The SNLI dataset contains 570,000 sentence pairs.",
+    "label": "supported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q07-contradicted",
+    "question_id": "q07",
+    "answer": "The SNLI dataset contains 430,000 sentence pairs.",
+    "label": "contradicted",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q07-unsupported",
+    "question_id": "q07",
+    "answer": "The SNLI sentence pairs were written by about 2,500 crowd workers on Amazon Mechanical Turk.",
+    "label": "unsupported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q08-supported",
+    "question_id": "q08",
+    "answer": "Training used a batch size of 16 and the Adam optimizer with a learning rate of 2e-5.",
+    "label": "supported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q08-contradicted",
+    "question_id": "q08",
+    "answer": "Training used a batch size of 32 and the Adam optimizer with a learning rate of 2e-5.",
+    "label": "contradicted",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q08-unsupported",
+    "question_id": "q08",
+    "answer": "Training used gradient clipping at 1.0 and a weight decay of 0.01.",
+    "label": "unsupported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q09-supported",
+    "question_id": "q09",
+    "answer": "SBERT experiments with three pooling strategies: the output of the CLS token, the mean of all output vectors (MEAN), and a max-over-time of the output vectors (MAX).",
+    "label": "supported",
+    "drafted_by": "llm",
+    "checked": true,
+    "edited_by_author": true
+  },
+  {
+    "id": "q09-contradicted",
+    "question_id": "q09",
+    "answer": "SBERT experiments with two pooling strategies.",
+    "label": "contradicted",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q09-unsupported",
+    "question_id": "q09",
+    "answer": "SBERT experiments with attention-based pooling, where a small learned network weights the output of each token.",
+    "label": "unsupported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q11-supported",
+    "question_id": "q11",
+    "answer": "The sentence embeddings u and v are concatenated with their element-wise difference |u−v|.",
+    "label": "supported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q11-contradicted",
+    "question_id": "q11",
+    "answer": "The sentence embeddings u and v are concatenated with their element-wise sum u+v.",
+    "label": "contradicted",
+    "drafted_by": "llm",
+    "checked": true,
+    "edited_by_author": true
+  },
+  {
+    "id": "q11-unsupported",
+    "question_id": "q11",
+    "answer": "The two sentence vectors are first passed through a shared tanh layer and then averaged before the softmax.",
+    "label": "unsupported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q12-supported",
+    "question_id": "q12",
+    "answer": "The regression objective uses mean-squared-error loss.",
+    "label": "supported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q12-contradicted",
+    "question_id": "q12",
+    "answer": "The regression objective uses cross-entropy loss.",
+    "label": "contradicted",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q12-unsupported",
+    "question_id": "q12",
+    "answer": "The regression objective uses a contrastive loss with in-batch negatives.",
+    "label": "unsupported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q13-supported",
+    "question_id": "q13",
+    "answer": "Triplet training tunes the network so that the anchor is closer to the positive example than to the negative example.",
+    "label": "supported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q13-contradicted",
+    "question_id": "q13",
+    "answer": "Triplet training tunes the network so that the anchor is closer to the negative example than to the positive example.",
+    "label": "contradicted",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q13-unsupported",
+    "question_id": "q13",
+    "answer": "Triplet training makes the embeddings robust to spelling errors by using a misspelled copy of the anchor as the positive.",
+    "label": "unsupported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q14-supported",
+    "question_id": "q14",
+    "answer": "The margin ϵ is set to 1.",
+    "label": "supported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q14-contradicted",
+    "question_id": "q14",
+    "answer": "The margin ϵ is set to 0.5.",
+    "label": "contradicted",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q14-unsupported",
+    "question_id": "q14",
+    "answer": "The margin is increased gradually from 0.1 during the first training epoch.",
+    "label": "unsupported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q16-supported",
+    "question_id": "q16",
+    "answer": "Averaged BERT embeddings achieve an average correlation of only 54.81.",
+    "label": "supported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q16-contradicted",
+    "question_id": "q16",
+    "answer": "Averaged BERT embeddings achieve an average correlation of only 61.32.",
+    "label": "contradicted",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q16-unsupported",
+    "question_id": "q16",
+    "answer": "Averaged BERT embeddings improve by about 10 points when stop words are removed before averaging.",
+    "label": "unsupported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q17-supported",
+    "question_id": "q17",
+    "answer": "Because Universal Sentence Encoder was trained on various datasets, including news, question-answer pages and discussion forums.",
+    "label": "supported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q17-contradicted",
+    "question_id": "q17",
+    "answer": "Because Universal Sentence Encoder was trained only on news articles.",
+    "label": "contradicted",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q17-unsupported",
+    "question_id": "q17",
+    "answer": "Because SICK-R sentences are much longer than the NLI sentences SBERT was trained on.",
+    "label": "unsupported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q18-supported",
+    "question_id": "q18",
+    "answer": "No. The authors observe only a minor difference between SBERT and SRoBERTa, and no significant improvement from RoBERTa.",
+    "label": "supported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q18-contradicted",
+    "question_id": "q18",
+    "answer": "Yes. Replacing BERT with RoBERTa gives a significant improvement over SBERT.",
+    "label": "contradicted",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q18-unsupported",
+    "question_id": "q18",
+    "answer": "No, but SRoBERTa trains about twice as fast as SBERT.",
+    "label": "unsupported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q19-supported",
+    "question_id": "q19",
+    "answer": "The STS benchmark contains 8,628 sentence pairs.",
+    "label": "supported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q19-contradicted",
+    "question_id": "q19",
+    "answer": "The STS benchmark contains 5,749 sentence pairs.",
+    "label": "contradicted",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q19-unsupported",
+    "question_id": "q19",
+    "answer": "The STS benchmark contains sentence pairs in both English and Spanish.",
+    "label": "unsupported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q21-supported",
+    "question_id": "q21",
+    "answer": "The AFS corpus covers gun control, gay marriage, and the death penalty.",
+    "label": "supported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q21-contradicted",
+    "question_id": "q21",
+    "answer": "The AFS corpus covers gun control, abortion, and the death penalty.",
+    "label": "contradicted",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q21-unsupported",
+    "question_id": "q21",
+    "answer": "The AFS corpus covers political topics taken from US presidential election debates.",
+    "label": "unsupported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q22-supported",
+    "question_id": "q22",
+    "answer": "When tested on an unseen topic, SBERT drops by about 7 points Spearman correlation.",
+    "label": "supported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q22-contradicted",
+    "question_id": "q22",
+    "answer": "When tested on an unseen topic, SBERT drops by about 17 points Spearman correlation.",
+    "label": "contradicted",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q22-unsupported",
+    "question_id": "q22",
+    "answer": "On unseen topics, SBERT's performance falls the most on the death penalty topic.",
+    "label": "unsupported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q23-supported",
+    "question_id": "q23",
+    "answer": "Because BERT is able to use attention to compare both sentences directly.",
+    "label": "supported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q23-contradicted",
+    "question_id": "q23",
+    "answer": "Because BERT is not able to use attention to compare both sentences directly, while SBERT is.",
+    "label": "contradicted",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q23-unsupported",
+    "question_id": "q23",
+    "answer": "Because argument sentences in AFS are often sarcastic, which sentence embeddings struggle to capture.",
+    "label": "unsupported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q24-supported",
+    "question_id": "q24",
+    "answer": "The anchor and the positive example come from the same Wikipedia section, while the negative example comes from a different section of the same article.",
+    "label": "supported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q24-contradicted",
+    "question_id": "q24",
+    "answer": "The anchor and the positive example come from the same Wikipedia section, while the negative example comes from a different article.",
+    "label": "contradicted",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q24-unsupported",
+    "question_id": "q24",
+    "answer": "Each triplet pairs a sentence with the sentence directly after it as the positive example.",
+    "label": "unsupported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q25-supported",
+    "question_id": "q25",
+    "answer": "SBERT reaches an accuracy of 0.8042 (base) and 0.8078 (large), clearly outperforming the BiLSTM approach by Dor et al.",
+    "label": "supported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q25-contradicted",
+    "question_id": "q25",
+    "answer": "SBERT reaches an accuracy of 0.7042 (base) and 0.8078 (large), clearly outperforming the BiLSTM approach by Dor et al.",
+    "label": "contradicted",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q25-unsupported",
+    "question_id": "q25",
+    "answer": "SBERT reaches about the same accuracy as human annotators on the Wikipedia section triplets.",
+    "label": "unsupported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q26-supported",
+    "question_id": "q26",
+    "answer": "Seven SentEval transfer tasks are used: MR, CR, SUBJ, MPQA, SST, TREC and MRPC.",
+    "label": "supported",
+    "drafted_by": "llm",
+    "checked": true,
+    "edited_by_author": true
+  },
+  {
+    "id": "q26-contradicted",
+    "question_id": "q26",
+    "answer": "Five SentEval transfer tasks are used for evaluation.",
+    "label": "contradicted",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q26-unsupported",
+    "question_id": "q26",
+    "answer": "The seven SentEval tasks were chosen by surveying NLP practitioners about which tasks matter most.",
+    "label": "unsupported",
+    "drafted_by": "llm",
+    "checked": true,
+    "edited_by_author": true
+  },
+  {
+    "id": "q28-supported",
+    "question_id": "q28",
+    "answer": "Because cosine similarity treats all dimensions of the embedding equally.",
+    "label": "supported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q28-contradicted",
+    "question_id": "q28",
+    "answer": "Because cosine similarity gives more weight to the first dimensions of the embedding.",
+    "label": "contradicted",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q28-unsupported",
+    "question_id": "q28",
+    "answer": "Because BERT embeddings all point in a narrow cone, so almost every cosine score is close to 1.",
+    "label": "unsupported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q29-supported",
+    "question_id": "q29",
+    "answer": "The element-wise difference |u−v| is the most important component.",
+    "label": "supported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q29-contradicted",
+    "question_id": "q29",
+    "answer": "The element-wise product u∗v is the most important component.",
+    "label": "contradicted",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q29-unsupported",
+    "question_id": "q29",
+    "answer": "The vector u of the first sentence matters most, because it acts as the query.",
+    "label": "unsupported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q30-supported",
+    "question_id": "q30",
+    "answer": "The MAX strategy performs significantly worse than MEAN or CLS-token pooling.",
+    "label": "supported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q30-contradicted",
+    "question_id": "q30",
+    "answer": "The CLS-token strategy performs significantly worse than MEAN or MAX pooling.",
+    "label": "contradicted",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q30-unsupported",
+    "question_id": "q30",
+    "answer": "Mean pooling over only the last four layers performs worst.",
+    "label": "unsupported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q32-supported",
+    "question_id": "q32",
+    "answer": "On a GPU, SBERT with smart batching is about 9% faster than InferSent.",
+    "label": "supported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q32-contradicted",
+    "question_id": "q32",
+    "answer": "On a GPU, SBERT with smart batching is about 55% faster than InferSent.",
+    "label": "contradicted",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q32-unsupported",
+    "question_id": "q32",
+    "answer": "On a GPU, SBERT is about twice as fast as InferSent when the batch size is above 256.",
+    "label": "unsupported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q33-supported",
+    "question_id": "q33",
+    "answer": "Because InferSent uses a single BiLSTM layer, while BERT uses 12 stacked transformer layers.",
+    "label": "supported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q33-contradicted",
+    "question_id": "q33",
+    "answer": "Because InferSent uses a single BiLSTM layer, while BERT uses 6 stacked transformer layers.",
+    "label": "contradicted",
+    "drafted_by": "llm",
+    "checked": true,
+    "edited_by_author": true
+  },
+  {
+    "id": "q33-unsupported",
+    "question_id": "q33",
+    "answer": "Because InferSent's code uses multi-threaded CPU kernels that BERT does not support.",
+    "label": "unsupported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q34-supported",
+    "question_id": "q34",
+    "answer": "The research was supported by the German Research Foundation.",
+    "label": "supported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q34-contradicted",
+    "question_id": "q34",
+    "answer": "The research was supported by the European Research Council.",
+    "label": "contradicted",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q34-unsupported",
+    "question_id": "q34",
+    "answer": "The research was funded by a Google Faculty Research Award.",
+    "label": "unsupported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q35-supported",
+    "question_id": "q35",
+    "answer": "The speed measurements ran on a server with an Intel i7-5820K CPU @ 3.30GHz and an Nvidia Tesla GPU.",
+    "label": "supported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q35-contradicted",
+    "question_id": "q35",
+    "answer": "The speed measurements ran on a server with an Intel i9-9900K CPU @ 3.30GHz and an Nvidia Tesla GPU.",
+    "label": "contradicted",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "q35-unsupported",
+    "question_id": "q35",
+    "answer": "The speed measurements ran on a server with 64 GB of RAM, using 8 CPU threads.",
+    "label": "unsupported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "h01-supported",
+    "question_id": "h01",
+    "answer": "Finding the most similar pair in 10,000 sentences with BERT requires about 50 million (49,995,000) inference computations.",
+    "label": "supported",
+    "drafted_by": "human",
+    "checked": true
+  },
+  {
+    "id": "h01-contradicted",
+    "question_id": "h01",
+    "answer": "Finding the most similar pair among 10,000 sentences with BERT requires about 5 million (4,999,500) inference computations.",
+    "label": "contradicted",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "h01-unsupported",
+    "question_id": "h01",
+    "answer": "With BERT, the number of inference computations can be halved by caching the encoding of the first sentence.",
+    "label": "unsupported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "h02-supported",
+    "question_id": "h02",
+    "answer": "SBERT reduces the 65 hours needed by BERT to about 5 seconds, the time it takes to compute 10,000 sentence embeddings.",
+    "label": "supported",
+    "drafted_by": "human",
+    "checked": true
+  },
+  {
+    "id": "h02-contradicted",
+    "question_id": "h02",
+    "answer": "SBERT reduces the effort from 65 hours to about 5 minutes.",
+    "label": "contradicted",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "h02-unsupported",
+    "question_id": "h02",
+    "answer": "SBERT makes the search so fast that it can run in real time on a smartphone.",
+    "label": "unsupported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "h03-supported",
+    "question_id": "h03",
+    "answer": "SBERT beats InferSent by 11.7 points on the 7 STS tasks.",
+    "label": "supported",
+    "drafted_by": "human",
+    "checked": true
+  },
+  {
+    "id": "h03-contradicted",
+    "question_id": "h03",
+    "answer": "SBERT improves over InferSent by 5.5 points on the seven STS tasks.",
+    "label": "contradicted",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "h03-unsupported",
+    "question_id": "h03",
+    "answer": "SBERT's improvement over InferSent comes mainly from its larger vocabulary.",
+    "label": "unsupported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "h04-supported",
+    "question_id": "h04",
+    "answer": "SBERT's default pooling configuration is MEAN.",
+    "label": "supported",
+    "drafted_by": "human",
+    "checked": true
+  },
+  {
+    "id": "h04-contradicted",
+    "question_id": "h04",
+    "answer": "The default pooling strategy for SBERT is CLS.",
+    "label": "contradicted",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "h04-unsupported",
+    "question_id": "h04",
+    "answer": "By default, SBERT pools the outputs while ignoring padding and special tokens such as [SEP].",
+    "label": "unsupported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "h05-supported",
+    "question_id": "h05",
+    "answer": "SBERT can be tuned in less than 20 minutes.",
+    "label": "supported",
+    "drafted_by": "human",
+    "checked": true
+  },
+  {
+    "id": "h05-contradicted",
+    "question_id": "h05",
+    "answer": "SBERT can be tuned in less than 20 hours.",
+    "label": "contradicted",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "h05-unsupported",
+    "question_id": "h05",
+    "answer": "Tuning time depends mainly on sentence length, which the authors capped at 128 tokens.",
+    "label": "unsupported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "h06-supported",
+    "question_id": "h06",
+    "answer": "The 3 labels on the 570,000 SNLI pairs are contradiction, entailment, and neutral.",
+    "label": "supported",
+    "drafted_by": "human",
+    "checked": true
+  },
+  {
+    "id": "h06-contradicted",
+    "question_id": "h06",
+    "answer": "The SNLI pairs are annotated with the labels contradiction, entailment, and paraphrase.",
+    "label": "contradicted",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "h06-unsupported",
+    "question_id": "h06",
+    "answer": "Each SNLI label was assigned by a majority vote of five annotators.",
+    "label": "unsupported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "h07-supported",
+    "question_id": "h07",
+    "answer": "There are 6,000 sentential argument pairs from social media dialogs in the AFS corpus.",
+    "label": "supported",
+    "drafted_by": "human",
+    "checked": true
+  },
+  {
+    "id": "h07-contradicted",
+    "question_id": "h07",
+    "answer": "The AFS corpus annotated 4,000 sentential argument pairs from social media dialogs.",
+    "label": "contradicted",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "h07-unsupported",
+    "question_id": "h07",
+    "answer": "The argument pairs in the AFS corpus were collected from the website CreateDebate.",
+    "label": "unsupported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "h08-supported",
+    "question_id": "h08",
+    "answer": "Dor et al. trained a BiLSTM architecture with triplet loss.",
+    "label": "supported",
+    "drafted_by": "human",
+    "checked": true
+  },
+  {
+    "id": "h08-contradicted",
+    "question_id": "h08",
+    "answer": "Dor et al. fine-tuned a CNN architecture with triplet loss to derive sentence embeddings.",
+    "label": "contradicted",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "h08-unsupported",
+    "question_id": "h08",
+    "answer": "Dor et al. initialised their network with pre-trained word2vec vectors before triplet training.",
+    "label": "unsupported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "h09-supported",
+    "question_id": "h09",
+    "answer": "SBERT is significantly worse than Universal Sentence Encoder on the TREC dataset.",
+    "label": "supported",
+    "drafted_by": "human",
+    "checked": true
+  },
+  {
+    "id": "h09-contradicted",
+    "question_id": "h09",
+    "answer": "The only dataset where SBERT is significantly worse than Universal Sentence Encoder is MRPC.",
+    "label": "contradicted",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "h09-unsupported",
+    "question_id": "h09",
+    "answer": "SBERT is significantly worse than Universal Sentence Encoder on multilingual datasets.",
+    "label": "unsupported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "h10-supported",
+    "question_id": "h10",
+    "answer": "InferSent is about 65% faster than SBERT on CPU.",
+    "label": "supported",
+    "drafted_by": "human",
+    "checked": true
+  },
+  {
+    "id": "h10-contradicted",
+    "question_id": "h10",
+    "answer": "On CPU, InferSent is about 55% faster than SBERT.",
+    "label": "contradicted",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "h10-unsupported",
+    "question_id": "h10",
+    "answer": "On CPU, InferSent's speed advantage disappears for sentences longer than 50 words.",
+    "label": "unsupported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "h11-supported",
+    "question_id": "h11",
+    "answer": "Spearman's rank correlation was used because Pearson correlation is badly suited for STS.",
+    "label": "supported",
+    "drafted_by": "human",
+    "checked": true
+  },
+  {
+    "id": "h11-contradicted",
+    "question_id": "h11",
+    "answer": "Because Spearman's rank correlation is badly suited for STS, the authors compute the Pearson correlation between the cosine similarity of the embeddings and the gold labels.",
+    "label": "contradicted",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "h11-unsupported",
+    "question_id": "h11",
+    "answer": "Because Spearman correlation is required by the official SemEval scoring script.",
+    "label": "unsupported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "h12-supported",
+    "question_id": "h12",
+    "answer": "NLI pre-training helped before STS because training first on NLI and then on STSb leads to a slight improvement of 1-2 points.",
+    "label": "supported",
+    "drafted_by": "human",
+    "checked": true
+  },
+  {
+    "id": "h12-contradicted",
+    "question_id": "h12",
+    "answer": "First training on NLI and then on STSb leads to a slight improvement of 3-4 points.",
+    "label": "contradicted",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "h12-unsupported",
+    "question_id": "h12",
+    "answer": "Because NLI pretraining teaches SBERT to ignore word order, which the STS benchmark rarely depends on.",
+    "label": "unsupported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "h13-supported",
+    "question_id": "h13",
+    "answer": "SBERT is much faster than BERT for clustering because it uses fixed-size vectors for input sentences, making similarity measures extremely efficient on modern hardware.",
+    "label": "supported",
+    "drafted_by": "human",
+    "checked": true
+  },
+  {
+    "id": "h13-contradicted",
+    "question_id": "h13",
+    "answer": "Because the siamese network derives variable-length vectors for the input sentences, and similarity measures on them can be computed extremely efficiently on modern hardware.",
+    "label": "contradicted",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "h13-unsupported",
+    "question_id": "h13",
+    "answer": "Because SBERT compresses each sentence into a 64-dimensional binary code, so comparisons only need bit operations.",
+    "label": "unsupported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "h14-supported",
+    "question_id": "h14",
+    "answer": "SBERT was introduced instead of plain BERT because plain BERT is unsuitable for semantic similarity search and clustering, and yields rather bad sentence embeddings.",
+    "label": "supported",
+    "drafted_by": "human",
+    "checked": true
+  },
+  {
+    "id": "h14-contradicted",
+    "question_id": "h14",
+    "answer": "Because BERT's construction makes it unsuitable for semantic similarity search, even though averaging its outputs gives good sentence embeddings.",
+    "label": "contradicted",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "h14-unsupported",
+    "question_id": "h14",
+    "answer": "Because the original BERT model only supports English, while SBERT supports over 50 languages.",
+    "label": "unsupported",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "h15-supported",
+    "question_id": "h15",
+    "answer": "Smart batching makes SBERT more efficient by grouping sentences of similar lengths together and padding them to the longest element in a mini-batch, which drastically reduces padding.",
+    "label": "supported",
+    "drafted_by": "human",
+    "checked": true
+  },
+  {
+    "id": "h15-contradicted",
+    "question_id": "h15",
+    "answer": "Sentences with similar lengths are grouped together and padded to the longest sentence in the whole dataset, which reduces the overhead from padding tokens.",
+    "label": "contradicted",
+    "drafted_by": "llm",
+    "checked": true
+  },
+  {
+    "id": "h15-unsupported",
+    "question_id": "h15",
+    "answer": "Smart batching sorts sentences alphabetically so that repeated words can be cached and reused.",
+    "label": "unsupported",
+    "drafted_by": "llm",
+    "checked": true
+  }
+]

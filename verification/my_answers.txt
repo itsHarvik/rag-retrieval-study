@@ -1,0 +1,15 @@
+h01: Finding the most similar pair in 10,000 sentences with BERT requires about 50 million (49,995,000) inference computations.
+h02: SBERT reduces the 65 hours needed by BERT to about 5 seconds, the time it takes to compute 10,000 sentence embeddings.
+h03: SBERT beats InferSent by 11.7 points on the 7 STS tasks.
+h04: SBERT's default pooling configuration is MEAN.
+h05: SBERT can be tuned in less than 20 minutes.
+h06: The 3 labels on the 570,000 SNLI pairs are contradiction, entailment, and neutral.
+h07: There are 6,000 sentential argument pairs from social media dialogs in the AFS corpus.
+h08: Dor et al. trained a BiLSTM architecture with triplet loss.
+h09: SBERT is significantly worse than Universal Sentence Encoder on the TREC dataset.
+h10: InferSent is about 65% faster than SBERT on CPU.
+h11: Spearman's rank correlation was used because Pearson correlation is badly suited for STS.
+h12: NLI pre-training helped before STS because training first on NLI and then on STSb leads to a slight improvement of 1-2 points.
+h13: SBERT is much faster than BERT for clustering because it uses fixed-size vectors for input sentences, making similarity measures extremely efficient on modern hardware.
+h14: SBERT was introduced instead of plain BERT because plain BERT is unsuitable for semantic similarity search and clustering, and yields rather bad sentence embeddings.
+h15: Smart batching makes SBERT more efficient by grouping sentences of similar lengths together and padding them to the longest element in a mini-batch, which drastically reduces padding.
