@@ -193,82 +193,84 @@ def judge_all(jobs):
 
 # ---------- main ----------
 
-with open(SET_PATH, encoding="utf-8") as f:
-    items = json.load(f)
-with open(CTX_PATH, encoding="utf-8") as f:
-    contexts = {r["question_id"]: r["contexts"] for r in json.load(f)}
+if __name__ == "__main__":
 
-# 1. Collect every (window, answer) pair we need, then score the ones that aren't cached
-pairs = [(w, item["answer"])
-         for item in items
-         for cond in CONDITIONS
-         for chunk in contexts[item["question_id"]][cond]["chunks"]
-         for w in windows(chunk["text"])]
-nli_cache = load_json(NLI_CACHE_PATH, {})
-score_missing_pairs(pairs, nli_cache)
+    with open(SET_PATH, encoding="utf-8") as f:
+        items = json.load(f)
+    with open(CTX_PATH, encoding="utf-8") as f:
+        contexts = {r["question_id"]: r["contexts"] for r in json.load(f)}
 
-too_long = sum(nli_cache[pair_key(p, h)]["tokens"] > MAX_TOKENS for p, h in set(pairs))
-print(f"Pairs longer than {MAX_TOKENS} tokens (would be truncated): {too_long}")
+    # 1. Collect every (window, answer) pair we need, then score the ones that aren't cached
+    pairs = [(w, item["answer"])
+             for item in items
+             for cond in CONDITIONS
+             for chunk in contexts[item["question_id"]][cond]["chunks"]
+             for w in windows(chunk["text"])]
+    nli_cache = load_json(NLI_CACHE_PATH, {})
+    score_missing_pairs(pairs, nli_cache)
 
-# 2. One row per item per condition
-rows = []
-for item in items:
-    for cond in CONDITIONS:
-        ctx = contexts[item["question_id"]][cond]
-        (entail, entail_win), (contra, contra_win) = nli_scores(item["answer"], ctx["chunks"], nli_cache)
-        rows.append({
-            "id": item["id"],
-            "question_id": item["question_id"],
-            "label": item["label"],
-            "condition": cond,
-            "evidence_hit": "" if cond == "oracle" else ctx["evidence_hit"],
-            "overlap": round(overlap_score(item["answer"], ctx["chunks"]), 4),
-            "nli_entail": round(entail, 4),
-            "nli_contra": round(contra, 4),
-            "nli_pred": nli_predict(entail, contra),
-            # kept only for printing examples below, not saved
-            "_answer": item["answer"], "_entail_win": entail_win, "_contra_win": contra_win,
-        })
+    too_long = sum(nli_cache[pair_key(p, h)]["tokens"] > MAX_TOKENS for p, h in set(pairs))
+    print(f"Pairs longer than {MAX_TOKENS} tokens (would be truncated): {too_long}")
 
-# 3. Optional LLM judge
-columns = ["id", "question_id", "label", "condition", "evidence_hit", "overlap", "nli_entail", "nli_contra", "nli_pred"]
-if os.environ.get("ANTHROPIC_API_KEY"):
-    jobs = [(f"{r['id']}|{r['condition']}", r["_answer"], contexts[r["question_id"]][r["condition"]]["chunks"])
-            for r in rows]
-    verdicts = judge_all(jobs)
-    for r, (key, _, _) in zip(rows, jobs):
-        r["judge_pred"] = verdicts[key]
-    columns.append("judge_pred")
-else:
-    print("LLM judge skipped: ANTHROPIC_API_KEY is not set.")
+    # 2. One row per item per condition
+    rows = []
+    for item in items:
+        for cond in CONDITIONS:
+            ctx = contexts[item["question_id"]][cond]
+            (entail, entail_win), (contra, contra_win) = nli_scores(item["answer"], ctx["chunks"], nli_cache)
+            rows.append({
+                "id": item["id"],
+                "question_id": item["question_id"],
+                "label": item["label"],
+                "condition": cond,
+                "evidence_hit": "" if cond == "oracle" else ctx["evidence_hit"],
+                "overlap": round(overlap_score(item["answer"], ctx["chunks"]), 4),
+                "nli_entail": round(entail, 4),
+                "nli_contra": round(contra, 4),
+                "nli_pred": nli_predict(entail, contra),
+                # kept only for printing examples below, not saved
+                "_answer": item["answer"], "_entail_win": entail_win, "_contra_win": contra_win,
+            })
 
-with open(OUT_PATH, "w", encoding="utf-8", newline="") as f:
-    writer = csv.DictWriter(f, fieldnames=columns, extrasaction="ignore")
-    writer.writeheader()
-    writer.writerows(rows)
-print(f"Saved {OUT_PATH} ({len(rows)} rows = {len(items)} items x {len(CONDITIONS)} conditions)")
+    # 3. Optional LLM judge
+    columns = ["id", "question_id", "label", "condition", "evidence_hit", "overlap", "nli_entail", "nli_contra", "nli_pred"]
+    if os.environ.get("ANTHROPIC_API_KEY"):
+        jobs = [(f"{r['id']}|{r['condition']}", r["_answer"], contexts[r["question_id"]][r["condition"]]["chunks"])
+                for r in rows]
+        verdicts = judge_all(jobs)
+        for r, (key, _, _) in zip(rows, jobs):
+            r["judge_pred"] = verdicts[key]
+        columns.append("judge_pred")
+    else:
+        print("LLM judge skipped: ANTHROPIC_API_KEY is not set.")
 
-# 4. Sanity check on oracle: confusion table (rows = true label, columns = NLI prediction)
-oracle = [r for r in rows if r["condition"] == "oracle"]
-counts = Counter((r["label"], r["nli_pred"]) for r in oracle)
-print("\nOracle condition: true label (rows) vs nli_pred (columns)")
-print(f"{'':14}" + "".join(f"{p:>14}" for p in LABELS) + f"{'total':>8}")
-for true in LABELS:
-    print(f"{true:14}" + "".join(f"{counts[(true, p)]:>14}" for p in LABELS)
-          + f"{sum(counts[(true, p)] for p in LABELS):>8}")
-correct = sum(counts[(l, l)] for l in LABELS)
-print(f"Accuracy: {correct}/{len(oracle)} = {correct / len(oracle):.1%}")
+    with open(OUT_PATH, "w", encoding="utf-8", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=columns, extrasaction="ignore")
+        writer.writeheader()
+        writer.writerows(rows)
+    print(f"Saved {OUT_PATH} ({len(rows)} rows = {len(items)} items x {len(CONDITIONS)} conditions)")
 
-# 3 wrong examples, from a different true label each where possible
-wrong = [r for r in oracle if r["label"] != r["nli_pred"]]
-examples = []
-for true in LABELS:
-    examples += [r for r in wrong if r["label"] == true][:1]
-examples += [r for r in wrong if r not in examples][:3 - len(examples)]
-print(f"\n{len(wrong)} oracle items wrong. Examples:")
-for r in examples[:3]:
-    window = r["_entail_win"] if r["nli_pred"] == "supported" or r["label"] == "supported" else r["_contra_win"]
-    print(f"\n- {r['id']}: true={r['label']}, nli_pred={r['nli_pred']} "
-          f"(entail={r['nli_entail']:.2f}, contra={r['nli_contra']:.2f}, overlap={r['overlap']:.2f})")
-    print(f"  answer: {r['_answer']}")
-    print(f"  most relevant window: {window[:400]}{'...' if len(window) > 400 else ''}")
+    # 4. Sanity check on oracle: confusion table (rows = true label, columns = NLI prediction)
+    oracle = [r for r in rows if r["condition"] == "oracle"]
+    counts = Counter((r["label"], r["nli_pred"]) for r in oracle)
+    print("\nOracle condition: true label (rows) vs nli_pred (columns)")
+    print(f"{'':14}" + "".join(f"{p:>14}" for p in LABELS) + f"{'total':>8}")
+    for true in LABELS:
+        print(f"{true:14}" + "".join(f"{counts[(true, p)]:>14}" for p in LABELS)
+              + f"{sum(counts[(true, p)] for p in LABELS):>8}")
+    correct = sum(counts[(l, l)] for l in LABELS)
+    print(f"Accuracy: {correct}/{len(oracle)} = {correct / len(oracle):.1%}")
+
+    # 3 wrong examples, from a different true label each where possible
+    wrong = [r for r in oracle if r["label"] != r["nli_pred"]]
+    examples = []
+    for true in LABELS:
+        examples += [r for r in wrong if r["label"] == true][:1]
+    examples += [r for r in wrong if r not in examples][:3 - len(examples)]
+    print(f"\n{len(wrong)} oracle items wrong. Examples:")
+    for r in examples[:3]:
+        window = r["_entail_win"] if r["nli_pred"] == "supported" or r["label"] == "supported" else r["_contra_win"]
+        print(f"\n- {r['id']}: true={r['label']}, nli_pred={r['nli_pred']} "
+              f"(entail={r['nli_entail']:.2f}, contra={r['nli_contra']:.2f}, overlap={r['overlap']:.2f})")
+        print(f"  answer: {r['_answer']}")
+        print(f"  most relevant window: {window[:400]}{'...' if len(window) > 400 else ''}")

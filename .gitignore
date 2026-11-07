@@ -22,3 +22,6 @@ testing.py
 
 # Claude session outputs (local only)
 Claude outputs/
+
+# NLI score cache (rebuilt by running verification/detect.py)
+verification/nli_cache.json
