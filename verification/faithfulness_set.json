@@ -300,10 +300,11 @@
   {
     "id": "q17-contradicted",
     "question_id": "q17",
-    "answer": "Because Universal Sentence Encoder was trained only on news articles.",
+    "answer": "Because Universal Sentence Encoder was trained only on NLI data, the same data as SBERT.",
     "label": "contradicted",
     "drafted_by": "llm",
-    "checked": true
+    "checked": true,
+    "edited_by_author": true
   },
   {
     "id": "q17-unsupported",
@@ -550,10 +551,11 @@
   {
     "id": "q29-unsupported",
     "question_id": "q29",
-    "answer": "The vector u of the first sentence matters most, because it acts as the query.",
+    "answer": "The element-wise difference |u−v| matters most, and the authors plan to replace it with a learned distance function in future work.",
     "label": "unsupported",
     "drafted_by": "llm",
-    "checked": true
+    "checked": true,
+    "edited_by_author": true
   },
   {
     "id": "q30-supported",
@@ -574,10 +576,11 @@
   {
     "id": "q30-unsupported",
     "question_id": "q30",
-    "answer": "Mean pooling over only the last four layers performs worst.",
+    "answer": "The MAX strategy performs worst, and the authors plan to test attention-based pooling in future work.",
     "label": "unsupported",
     "drafted_by": "llm",
-    "checked": true
+    "checked": true,
+    "edited_by_author": true
   },
   {
     "id": "q32-supported",
@@ -639,10 +642,11 @@
   {
     "id": "q34-contradicted",
     "question_id": "q34",
-    "answer": "The research was supported by the European Research Council.",
+    "answer": "The research received no external funding.",
     "label": "contradicted",
     "drafted_by": "llm",
-    "checked": true
+    "checked": true,
+    "edited_by_author": true
   },
   {
     "id": "q34-unsupported",
@@ -887,10 +891,11 @@
   {
     "id": "h09-unsupported",
     "question_id": "h09",
-    "answer": "SBERT is significantly worse than Universal Sentence Encoder on multilingual datasets.",
+    "answer": "SBERT is significantly worse only on TREC, and the authors plan to close this gap in future work by adding question-answering data to SBERT's training.",
     "label": "unsupported",
     "drafted_by": "llm",
-    "checked": true
+    "checked": true,
+    "edited_by_author": true
   },
   {
     "id": "h10-supported",
