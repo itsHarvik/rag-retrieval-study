@@ -19,7 +19,7 @@ Given an answer and the retrieved text, can an automatic checker tell whether th
 
 - **With perfect retrieval, NLI separates good answers from bad ones well.** Its AUROC is 0.90, significantly better than word overlap (0.81).
 - **The checker depends on retrieval.** NLI AUROC falls to 0.85 with hybrid retrieval and 0.74 with weak retrieval.
-- **Most false alarms come from missed evidence.** NLI rejects 15–19% of supported answers when retrieval found the evidence, but 75–100% when it missed it.
+- **Most false alarms come from missed evidence.** NLI rejects 19% of supported answers when weak retrieval found the evidence, but 75% when it missed it (16 questions).
 
 ![False alarms by condition and evidence found or missed](results/verification/false_alarms.png)
 

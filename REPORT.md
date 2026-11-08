@@ -217,7 +217,7 @@ Reading the wrong cases showed four repeated patterns:
 ## 7. Limitations
 
 - **Only 3 hybrid misses.** Hybrid retrieval missed the evidence for only 3 questions, so its "missed" false-alarm rate (1.000) rests on 3 answers.
-- **About 20 tests.** I ran 23 significance tests and did not correct for multiple comparisons. At a 95% level, about one of them could look significant by chance.
+- **23 tests.** I ran 23 significance tests and did not correct for multiple comparisons. At a 95% level, about one of them could look significant by chance.
 - **Found vs missed is not a controlled experiment.** The questions where retrieval missed the evidence may also be harder in other ways, so the gap shows a link, not a cause.
 - **One paper.** All answers are about one paper, and all 86 bad answers were drafted by an LLM. Real hallucinations may look different.
 
