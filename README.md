@@ -13,6 +13,16 @@ A small research project on the **retrieval** step of PDF question answering (RA
 - **Embedding chunks as windows of ≤ 180 words fixes most of this.** The best configuration, windowed hybrid with 400-word chunks, reaches **MRR 0.70 and Recall@5 0.90**.
 - Evaluation set: **43 questions (15 written by me, 28 LLM-drafted), each labelled with evidence quotes**. Results are reported for both groups. See the report for limitations.
 
+## Part 2: Can we catch unsupported answers?
+
+Given an answer and the retrieved text, can an automatic checker tell whether the answer is supported by that text? I tested word overlap and an NLI model (`cross-encoder/nli-deberta-v3-base`, run on 3-sentence windows) on 129 answers: 43 supported, 43 contradicted and 43 unsupported. 15 answers were written by me and 114 were drafted by an LLM. I reviewed all of them.
+
+- **With perfect retrieval, NLI separates good answers from bad ones well.** Its AUROC is 0.90, significantly better than word overlap (0.81).
+- **The checker depends on retrieval.** NLI AUROC falls to 0.85 with hybrid retrieval and 0.74 with weak retrieval.
+- **Most false alarms come from missed evidence.** NLI rejects 15–19% of supported answers when retrieval found the evidence, but 75–100% when it missed it.
+
+![False alarms by condition and evidence found or missed](results/verification/false_alarms.png)
+
 ## How it works
 
 | File | What it does |
@@ -24,6 +34,13 @@ A small research project on the **retrieval** step of PDF question answering (RA
 | `evaluate.py` | Stage 4 report: semantic search vs a random baseline |
 | `experiments.py` | All experiments (5 methods × 3 chunk sizes) with paired bootstrap tests. Writes `results/*.csv` |
 | `make_chart.py` | Draws `results/chart.png` from the results |
+| `verification/faithfulness_set.json` | Part 2 test set: 129 answers (supported / contradicted / unsupported), each recording who drafted it and whether I edited it |
+| `verification/review_log.md` | My review decision for every answer in the test set |
+| `verification/draft_answers.py` | Writes the first draft of the test set |
+| `verification/check_set.py` | Checks the test set (counts per label, empty or unchecked items) |
+| `verification/build_contexts.py` | Builds the three context conditions (oracle, hybrid, weak). Writes `verification/contexts.json` |
+| `verification/detect.py` | Scores every answer with overlap and NLI in each condition. Writes `verification/scores.csv` |
+| `verification/run_verification.py` | Metrics with bootstrap CIs, the chart and error cases. Writes `results/verification/` |
 
 ## Run it
 
@@ -37,6 +54,11 @@ python check_eval_set.py   # verify the labels match the PDF
 python experiments.py      # run all experiments (writes results/)
 python make_chart.py       # redraw the chart
 streamlit run App.py       # interactive search app
+
+# Part 2
+python verification/build_contexts.py     # build the three context conditions
+python verification/detect.py             # score every answer with overlap and NLI
+python verification/run_verification.py   # metrics, CIs and chart (writes results/verification/)
 ```
 
 The labels are exact quotes, so the PDF text extraction must match. If you get a "quote not found" error, check that you downloaded the original arXiv v1 PDF.
